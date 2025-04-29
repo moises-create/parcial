@@ -61,8 +61,11 @@ const useCanvasData = (canvaId, userEmail) => {
         edges: [],
       };
       try {
+        const updatedPages = [...pages, newPage];
+        // ⬇️ 2) envía *todo* el array y la marca de tiempo
         await updateDoc(doc(db, "canvas", canvaId), {
-          pages: arrayUnion(newPage),
+          pages: updatedPages,
+          lastUpdated: serverTimestamp(), // << NECESARIO
         });
         setActivePage(newPage.id);
       } catch (e) {

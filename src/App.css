@@ -9,7 +9,22 @@
   --gray: #94a3b8;
   --glass: rgba(15, 23, 42, 0.8);
 }
+:root {
+  --rf-blue: #10b981;
+  --rf-blue-dark: #059669;
+  --rf-gray-light: #f1f1f1;
+  --rf-gray-medium: #c1c1c1;
+  --rf-handle-size: 8px;
+}
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --rf-blue: #34d399;
+    --rf-blue-dark: #10b981;
+    --rf-gray-light: #1f2937;
+    --rf-gray-medium: #4b5563;
+  }
+}
 /* Estilos base futuristas */
 body {
   background-color: var(--darker);

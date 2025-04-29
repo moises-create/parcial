@@ -2,6 +2,19 @@
 import React, { useEffect } from "react";
 import { Lock, Unlock, Eye, EyeOff } from "react-feather";
 
+// Soft green theme colors
+const softGreenTheme = {
+  primary: "#10b981",
+  primaryLight: "#d1fae5",
+  primaryDark: "#059669",
+  textPrimary: "#047857",
+  textSecondary: "#6b7280",
+  borderColor: "#a7f3d0",
+  background: "#f0fdf4",
+  inputBg: "#ffffff",
+  hoverBg: "#ecfdf5",
+};
+
 const PropertyPanel = ({ selectedElement, onChange }) => {
   useEffect(() => {
     console.log("Selected element updated:", selectedElement);
@@ -9,7 +22,10 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
 
   if (!selectedElement) {
     return (
-      <div className="w-72 bg-white border-l p-6 flex items-center justify-center">
+      <div
+        className="w-72 border-l p-6 flex items-center justify-center"
+        style={{ backgroundColor: softGreenTheme.background }}
+      >
         <p className="text-gray-500 text-sm text-center">
           Select an element to edit its properties
         </p>
@@ -81,13 +97,24 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
   const renderCommonProperties = () => (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h4 className="font-medium text-sm text-gray-800">
+        <h4
+          className="font-medium text-sm"
+          style={{ color: softGreenTheme.textPrimary }}
+        >
           Element Properties
         </h4>
         <div className="flex gap-2">
           <button
             onClick={toggleVisibility}
-            className="p-1.5 rounded hover:bg-gray-100 text-gray-600 transition-colors"
+            className="p-1.5 rounded transition-colors"
+            style={{
+              color: softGreenTheme.textPrimary,
+              backgroundColor:
+                selectedElement.data.visible === false
+                  ? softGreenTheme.primaryLight
+                  : "transparent",
+              hover: { backgroundColor: softGreenTheme.hoverBg },
+            }}
             title={selectedElement.data.visible === false ? "Show" : "Hide"}
           >
             {selectedElement.data.visible === false ? (
@@ -98,7 +125,14 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
           </button>
           <button
             onClick={toggleLock}
-            className="p-1.5 rounded hover:bg-gray-100 text-gray-600 transition-colors"
+            className="p-1.5 rounded transition-colors"
+            style={{
+              color: softGreenTheme.textPrimary,
+              backgroundColor: selectedElement.data.locked
+                ? softGreenTheme.primaryLight
+                : "transparent",
+              hover: { backgroundColor: softGreenTheme.hoverBg },
+            }}
             title={selectedElement.data.locked ? "Unlock" : "Lock"}
           >
             {selectedElement.data.locked ? (
@@ -111,14 +145,23 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
+        <label
+          className="block text-xs font-medium mb-1"
+          style={{ color: softGreenTheme.textPrimary }}
+        >
           Name
         </label>
         <input
           type="text"
           value={selectedElement.data.label || ""}
           onChange={(e) => handleChange("label", e.target.value)}
-          className="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+          className="w-full p-2 border rounded text-sm transition-all"
+          style={{
+            borderColor: softGreenTheme.borderColor,
+            backgroundColor: softGreenTheme.inputBg,
+            color: softGreenTheme.textPrimary,
+            outline: "none",
+          }}
         />
       </div>
 
@@ -126,7 +169,10 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
         selectedElement.type
       ) && (
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">
+          <label
+            className="block text-xs font-medium mb-1"
+            style={{ color: softGreenTheme.textPrimary }}
+          >
             Background Color
           </label>
           <div className="flex items-center gap-2">
@@ -135,8 +181,12 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
               value={selectedElement.data?.style?.fill || "#ffffff"}
               onChange={(e) => handleStyleChange("fill", e.target.value)}
               className="w-8 h-8 rounded cursor-pointer"
+              style={{ border: `1px solid ${softGreenTheme.borderColor}` }}
             />
-            <span className="text-xs text-gray-500">
+            <span
+              className="text-xs"
+              style={{ color: softGreenTheme.textSecondary }}
+            >
               {selectedElement.data?.style?.fill || "#ffffff"}
             </span>
           </div>
@@ -151,20 +201,31 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
         return (
           <div className="mt-4 space-y-4">
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Content
               </label>
               <textarea
                 value={selectedElement.data.text || ""}
                 onChange={(e) => handleChange("text", e.target.value)}
-                className="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2 border rounded text-sm transition-all"
+                style={{
+                  borderColor: softGreenTheme.borderColor,
+                  backgroundColor: softGreenTheme.inputBg,
+                  color: softGreenTheme.textPrimary,
+                }}
                 rows={3}
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label
+                  className="block text-xs font-medium mb-1"
+                  style={{ color: softGreenTheme.textPrimary }}
+                >
                   Font Size
                 </label>
                 <input
@@ -173,11 +234,19 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                   onChange={(e) =>
                     handleStyleChange("fontSize", e.target.value)
                   }
-                  className="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                  className="w-full p-2 border rounded text-sm transition-all"
+                  style={{
+                    borderColor: softGreenTheme.borderColor,
+                    backgroundColor: softGreenTheme.inputBg,
+                    color: softGreenTheme.textPrimary,
+                  }}
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label
+                  className="block text-xs font-medium mb-1"
+                  style={{ color: softGreenTheme.textPrimary }}
+                >
                   Text Color
                 </label>
                 <div className="flex items-center gap-2">
@@ -186,8 +255,14 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                     value={selectedElement.data?.style?.color || "#000000"}
                     onChange={(e) => handleStyleChange("color", e.target.value)}
                     className="w-8 h-8 rounded cursor-pointer"
+                    style={{
+                      border: `1px solid ${softGreenTheme.borderColor}`,
+                    }}
                   />
-                  <span className="text-xs text-gray-500">
+                  <span
+                    className="text-xs"
+                    style={{ color: softGreenTheme.textSecondary }}
+                  >
                     {selectedElement.data?.style?.color || "#000000"}
                   </span>
                 </div>
@@ -200,14 +275,22 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
         return (
           <div className="mt-4 space-y-4">
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Image URL
               </label>
               <input
                 type="text"
                 value={selectedElement.data.src || ""}
                 onChange={(e) => handleChange("src", e.target.value)}
-                className="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2 border rounded text-sm transition-all"
+                style={{
+                  borderColor: softGreenTheme.borderColor,
+                  backgroundColor: softGreenTheme.inputBg,
+                  color: softGreenTheme.textPrimary,
+                }}
                 placeholder="https://example.com/image.jpg"
               />
             </div>
@@ -218,20 +301,31 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
         return (
           <div className="mt-4 space-y-4">
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Logo URL
               </label>
               <input
                 type="text"
                 value={selectedElement.data.logo || ""}
                 onChange={(e) => handleChange("logo", e.target.value)}
-                className="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2 border rounded text-sm transition-all"
+                style={{
+                  borderColor: softGreenTheme.borderColor,
+                  backgroundColor: softGreenTheme.inputBg,
+                  color: softGreenTheme.textPrimary,
+                }}
                 placeholder="/logo.png"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Navigation Items
               </label>
               <div className="space-y-2">
@@ -243,7 +337,12 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                       onChange={(e) =>
                         handleArrayChange("navItems", index, e.target.value)
                       }
-                      className="flex-1 p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                      className="flex-1 p-2 border rounded text-sm transition-all"
+                      style={{
+                        borderColor: softGreenTheme.borderColor,
+                        backgroundColor: softGreenTheme.inputBg,
+                        color: softGreenTheme.textPrimary,
+                      }}
                     />
                     <button
                       onClick={() => handleRemoveArrayItem("navItems", index)}
@@ -255,7 +354,12 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                 ))}
                 <button
                   onClick={() => handleAddArrayItem("navItems", "New Item")}
-                  className="w-full py-1.5 text-xs text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                  className="w-full py-1.5 text-xs rounded transition-colors"
+                  style={{
+                    color: softGreenTheme.primary,
+                    backgroundColor: softGreenTheme.primaryLight,
+                    hover: { backgroundColor: softGreenTheme.hoverBg },
+                  }}
                 >
                   + Add Navigation Item
                 </button>
@@ -268,14 +372,22 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
         return (
           <div className="mt-4 space-y-4">
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Title
               </label>
               <input
                 type="text"
                 value={selectedElement.data.title || ""}
                 onChange={(e) => handleChange("title", e.target.value)}
-                className="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2 border rounded text-sm transition-all"
+                style={{
+                  borderColor: softGreenTheme.borderColor,
+                  backgroundColor: softGreenTheme.inputBg,
+                  color: softGreenTheme.textPrimary,
+                }}
               />
             </div>
 
@@ -284,28 +396,44 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                 type="checkbox"
                 checked={selectedElement.data.showLogo || false}
                 onChange={(e) => handleChange("showLogo", e.target.checked)}
-                className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
+                className="h-4 w-4 rounded"
+                style={{ color: softGreenTheme.primary }}
                 id="showLogo"
               />
-              <label htmlFor="showLogo" className="text-xs text-gray-700">
+              <label
+                htmlFor="showLogo"
+                className="text-xs"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Show Logo
               </label>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Button Text
               </label>
               <input
                 type="text"
                 value={selectedElement.data.buttonText || ""}
                 onChange={(e) => handleChange("buttonText", e.target.value)}
-                className="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2 border rounded text-sm transition-all"
+                style={{
+                  borderColor: softGreenTheme.borderColor,
+                  backgroundColor: softGreenTheme.inputBg,
+                  color: softGreenTheme.textPrimary,
+                }}
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Button Color
               </label>
               <div className="flex items-center gap-2">
@@ -314,22 +442,36 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                   value={selectedElement.data.buttonColor || "#3b82f6"}
                   onChange={(e) => handleChange("buttonColor", e.target.value)}
                   className="w-8 h-8 rounded cursor-pointer"
+                  style={{ border: `1px solid ${softGreenTheme.borderColor}` }}
                 />
-                <span className="text-xs text-gray-500">
+                <span
+                  className="text-xs"
+                  style={{ color: softGreenTheme.textSecondary }}
+                >
                   {selectedElement.data.buttonColor || "#3b82f6"}
                 </span>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Form Fields
               </label>
               <div className="space-y-3">
                 {selectedElement.data.fields?.map((field, index) => (
-                  <div key={index} className="border p-3 rounded-lg">
+                  <div
+                    key={index}
+                    className="border p-3 rounded-lg"
+                    style={{ borderColor: softGreenTheme.borderColor }}
+                  >
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-xs font-medium text-gray-700">
+                      <span
+                        className="text-xs font-medium"
+                        style={{ color: softGreenTheme.textPrimary }}
+                      >
                         Field {index + 1}
                       </span>
                       <button
@@ -338,7 +480,11 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                           newFields.splice(index, 1);
                           handleChange("fields", newFields);
                         }}
-                        className="text-xs text-red-500 hover:bg-red-50 p-1 rounded"
+                        className="text-xs p-1 rounded"
+                        style={{
+                          color: "#ef4444",
+                          hover: { backgroundColor: "#fee2e2" },
+                        }}
                       >
                         Remove
                       </button>
@@ -352,7 +498,12 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                         handleChange("fields", newFields);
                       }}
                       placeholder="Label"
-                      className="w-full p-1.5 border rounded text-xs mb-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                      className="w-full p-1.5 border rounded text-xs mb-2 transition-all"
+                      style={{
+                        borderColor: softGreenTheme.borderColor,
+                        backgroundColor: softGreenTheme.inputBg,
+                        color: softGreenTheme.textPrimary,
+                      }}
                     />
                     <select
                       value={field.type}
@@ -361,7 +512,12 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                         newFields[index].type = e.target.value;
                         handleChange("fields", newFields);
                       }}
-                      className="w-full p-1.5 border rounded text-xs mb-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                      className="w-full p-1.5 border rounded text-xs mb-2 transition-all"
+                      style={{
+                        borderColor: softGreenTheme.borderColor,
+                        backgroundColor: softGreenTheme.inputBg,
+                        color: softGreenTheme.textPrimary,
+                      }}
                     >
                       <option value="text">Text</option>
                       <option value="email">Email</option>
@@ -377,7 +533,12 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                         handleChange("fields", newFields);
                       }}
                       placeholder="Placeholder"
-                      className="w-full p-1.5 border rounded text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                      className="w-full p-1.5 border rounded text-xs transition-all"
+                      style={{
+                        borderColor: softGreenTheme.borderColor,
+                        backgroundColor: softGreenTheme.inputBg,
+                        color: softGreenTheme.textPrimary,
+                      }}
                     />
                   </div>
                 ))}
@@ -389,7 +550,12 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                       placeholder: "",
                     })
                   }
-                  className="w-full py-1.5 text-xs text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                  className="w-full py-1.5 text-xs rounded transition-colors"
+                  style={{
+                    color: softGreenTheme.primary,
+                    backgroundColor: softGreenTheme.primaryLight,
+                    hover: { backgroundColor: softGreenTheme.hoverBg },
+                  }}
                 >
                   + Add Form Field
                 </button>
@@ -402,18 +568,29 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
         return (
           <div className="mt-4 space-y-4">
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Button Text
               </label>
               <input
                 type="text"
                 value={selectedElement.data.text || ""}
                 onChange={(e) => handleChange("text", e.target.value)}
-                className="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2 border rounded text-sm transition-all"
+                style={{
+                  borderColor: softGreenTheme.borderColor,
+                  backgroundColor: softGreenTheme.inputBg,
+                  color: softGreenTheme.textPrimary,
+                }}
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Text Color
               </label>
               <div className="flex items-center gap-2">
@@ -424,8 +601,12 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                     handleStyleChange("textColor", e.target.value)
                   }
                   className="w-8 h-8 rounded cursor-pointer"
+                  style={{ border: `1px solid ${softGreenTheme.borderColor}` }}
                 />
-                <span className="text-xs text-gray-500">
+                <span
+                  className="text-xs"
+                  style={{ color: softGreenTheme.textSecondary }}
+                >
                   {selectedElement.data?.style?.textColor || "#ffffff"}
                 </span>
               </div>
@@ -437,7 +618,10 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
         return (
           <div className="mt-4 grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Width
               </label>
               <input
@@ -446,11 +630,19 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                 onChange={(e) =>
                   handleStyleChange("width", parseInt(e.target.value))
                 }
-                className="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2 border rounded text-sm transition-all"
+                style={{
+                  borderColor: softGreenTheme.borderColor,
+                  backgroundColor: softGreenTheme.inputBg,
+                  color: softGreenTheme.textPrimary,
+                }}
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label
+                className="block text-xs font-medium mb-1"
+                style={{ color: softGreenTheme.textPrimary }}
+              >
                 Height
               </label>
               <input
@@ -459,7 +651,12 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
                 onChange={(e) =>
                   handleStyleChange("height", parseInt(e.target.value))
                 }
-                className="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2 border rounded text-sm transition-all"
+                style={{
+                  borderColor: softGreenTheme.borderColor,
+                  backgroundColor: softGreenTheme.inputBg,
+                  color: softGreenTheme.textPrimary,
+                }}
               />
             </div>
           </div>
@@ -468,10 +665,24 @@ const PropertyPanel = ({ selectedElement, onChange }) => {
   };
 
   return (
-    <div className="w-72 bg-white border-l p-6 overflow-y-auto">
+    <div
+      className="w-72 border-l p-6 overflow-y-auto"
+      style={{
+        backgroundColor: softGreenTheme.background,
+        borderColor: softGreenTheme.borderColor,
+      }}
+    >
       <h3 className="font-medium text-sm mb-4 flex items-center">
-        <span className="capitalize text-gray-800">{selectedElement.type}</span>
-        <span className="ml-auto text-xs text-gray-500 font-mono">
+        <span
+          className="capitalize"
+          style={{ color: softGreenTheme.textPrimary }}
+        >
+          {selectedElement.type}
+        </span>
+        <span
+          className="ml-auto text-xs font-mono"
+          style={{ color: softGreenTheme.textSecondary }}
+        >
           {selectedElement.id.slice(0, 6)}
         </span>
       </h3>

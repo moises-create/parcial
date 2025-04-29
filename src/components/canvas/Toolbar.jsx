@@ -32,14 +32,24 @@ import {
 } from "react-feather";
 
 import Tooltip from "../UI/tooltip";
+
 /* ─── visual constants ───────────────────────────────────────────── */
-const BTN_ICON = 20; // smaller icon size for better proportions
-const BTN_PAD = "p-2.5"; // adjusted padding interior
-const TW_WIDTH = "w-64"; // slightly wider for better spacing
+const BTN_ICON = 20;
+const BTN_PAD = "p-2.5";
+const TW_WIDTH = "w-64";
 
-/* ─── tooltip component ─────────────────────────────────────────── */
+const greenTheme = {
+  primary: "#10b981",
+  primaryDark: "#059669",
+  primaryLight: "#34d399",
+  secondary: "#065f46",
+  background: "#ecfdf5",
+  text: "#064e3b",
+  border: "#a7f3d0",
+  panelBg: "rgba(236, 253, 245, 0.9)",
+};
 
-/* ─── toolbar button component ───────────────────────────────────── */
+/* ─── toolbar button ───────────────────────────────────────────── */
 const ToolButton = ({
   icon: Icon,
   tooltip,
@@ -50,12 +60,12 @@ const ToolButton = ({
 }) => {
   const base = `${BTN_PAD} rounded-lg flex items-center justify-center transition-all hover:scale-105`;
   const visual = disabled
-    ? "text-gray-300 cursor-not-allowed opacity-50"
+    ? "text-green-200 cursor-not-allowed opacity-50"
     : active
-    ? "bg-blue-100 text-blue-700 shadow-inner border border-blue-200"
+    ? "bg-green-100 text-green-700 shadow-inner border border-green-200"
     : danger
     ? "hover:bg-red-50 text-red-500 hover:border hover:border-red-200"
-    : "hover:bg-gray-100 text-gray-700 hover:border hover:border-gray-200";
+    : "hover:bg-green-100 text-green-700 hover:border hover:border-green-200";
 
   return (
     <Tooltip content={tooltip} side="right">
@@ -70,7 +80,7 @@ const ToolButton = ({
   );
 };
 
-/* ─── section component ────────────────────────────────────────── */
+/* ─── section component ───────────────────────────────────────────── */
 const ToolbarSection = ({
   title,
   children,
@@ -80,28 +90,27 @@ const ToolbarSection = ({
   const [isExpanded, setIsExpanded] = useState(expanded);
 
   return (
-    <div className="py-2 border-b border-gray-100 last:border-0">
+    <div className="py-2 border-b border-green-100 last:border-0">
       {title && (
         <div
           className={`flex items-center px-4 py-1 ${
-            toggleable ? "cursor-pointer hover:bg-gray-50" : ""
+            toggleable ? "cursor-pointer hover:bg-green-50" : ""
           }`}
           onClick={toggleable ? () => setIsExpanded(!isExpanded) : undefined}
         >
-          <h4 className="text-xs font-semibold tracking-wide text-gray-500 uppercase flex-1">
+          <h4 className="text-xs font-semibold tracking-wide text-green-600 uppercase flex-1">
             {title}
           </h4>
           {toggleable && (
             <ChevronDown
               size={16}
-              className={`text-gray-400 transition-transform duration-300 ${
-                isExpanded ? "transform rotate-180" : ""
+              className={`text-green-400 transition-transform duration-300 ${
+                isExpanded ? "rotate-180" : ""
               }`}
             />
           )}
         </div>
       )}
-
       <div
         className={`px-4 pt-2 overflow-hidden transition-all duration-300 ease-in-out ${
           isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
@@ -113,7 +122,7 @@ const ToolbarSection = ({
   );
 };
 
-/* ─── main toolbar component ─────────────────────────────────────── */
+/* ─── main toolbar ───────────────────────────────────────────── */
 const Toolbar = ({
   activeTool,
   onToolChange,
@@ -133,7 +142,6 @@ const Toolbar = ({
 }) => {
   const [showGrid, setShowGrid] = useState(true);
 
-  /* tools categorized by function */
   const navigationTools = [
     { icon: MousePointer, tool: "select", tip: "Select (V)" },
     { icon: Move, tool: "pan", tip: "Pan (H)" },
@@ -158,7 +166,6 @@ const Toolbar = ({
     { icon: Layers, tool: "card", tip: "Card" },
   ];
 
-  /* shortcuts */
   const keyHandler = useCallback(
     (e) => {
       const map = {
@@ -189,7 +196,6 @@ const Toolbar = ({
     return () => window.removeEventListener("keydown", keyHandler);
   }, [keyHandler]);
 
-  /* add node to center */
   const handleAddNode = () => {
     if (!flowInstance || ["select", "pan", "navigator"].includes(activeTool))
       return;
@@ -204,20 +210,27 @@ const Toolbar = ({
   const hasSel = !!selectedElement;
   const isNode = selectedElement && "width" in selectedElement;
 
-  /* ─── render ─────────────────────────────────────────────────── */
   return (
     <aside
-      className={`${TW_WIDTH} bg-white shadow-lg flex flex-col relative z-10 border-r border-gray-200`}
+      className={`${TW_WIDTH} bg-green-50 shadow-lg flex flex-col relative z-10 border-r`}
+      style={{ borderColor: greenTheme.border }}
     >
       {/* logo */}
-      <div className="py-4 flex justify-center border-b border-gray-100">
-        <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-xl px-6 py-2 flex items-center justify-center font-bold text-lg shadow-md">
-          <span className="mr-2">Flow</span>
+      <div
+        className="py-4 flex justify-center border-b"
+        style={{ borderColor: greenTheme.border }}
+      >
+        <div
+          className="text-white rounded-xl px-6 py-2 flex items-center justify-center font-bold text-lg shadow-md"
+          style={{
+            background: `linear-gradient(to bottom right, ${greenTheme.primary}, ${greenTheme.secondary})`,
+          }}
+        >
+          <span className="mr-2">Parcial Moises</span>
           <Box size={18} />
         </div>
       </div>
 
-      {/* navigation tools */}
       <ToolbarSection title="Navigation">
         {navigationTools.map(({ icon, tool, tip }) => (
           <ToolButton
@@ -230,7 +243,6 @@ const Toolbar = ({
         ))}
       </ToolbarSection>
 
-      {/* shapes */}
       <ToolbarSection title="Shapes">
         {shapeTools.map(({ icon, tool, tip }) => (
           <ToolButton
@@ -243,7 +255,6 @@ const Toolbar = ({
         ))}
       </ToolbarSection>
 
-      {/* content */}
       <ToolbarSection title="Content">
         {contentTools.map(({ icon, tool, tip }) => (
           <ToolButton
@@ -256,8 +267,7 @@ const Toolbar = ({
         ))}
       </ToolbarSection>
 
-      {/* components */}
-      <ToolbarSection title="Components" toggleable={true}>
+      <ToolbarSection title="Components" toggleable>
         {componentTools.map(({ icon, tool, tip }) => (
           <ToolButton
             key={tool}
@@ -269,11 +279,10 @@ const Toolbar = ({
         ))}
       </ToolbarSection>
 
-      {/* actions */}
       <ToolbarSection title="Actions">
         <ToolButton
           icon={Plus}
-          tooltip="Add Selected Element"
+          tooltip="Add Node"
           onClick={handleAddNode}
           disabled={["select", "pan", "navigator"].includes(activeTool)}
         />
@@ -292,7 +301,6 @@ const Toolbar = ({
         />
       </ToolbarSection>
 
-      {/* selection-specific tools */}
       {isNode && (
         <div className="animate-in fade-in-0 duration-300">
           <ToolbarSection title="Alignment">
@@ -326,11 +334,6 @@ const Toolbar = ({
               tooltip={selectedElement.data?.locked ? "Unlock" : "Lock"}
               onClick={() => onToggleLock(selectedElement.id)}
             />
-            <ToolButton
-              icon={Layers}
-              tooltip="Layer Options"
-              onClick={() => {}}
-            />
           </ToolbarSection>
 
           <ToolbarSection title="Order">
@@ -350,7 +353,6 @@ const Toolbar = ({
 
       <div className="flex-1" />
 
-      {/* utilities footer */}
       <ToolbarSection>
         <ToolButton
           icon={Grid}

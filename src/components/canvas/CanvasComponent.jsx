@@ -15,14 +15,41 @@ import { nodeTypes } from "./CustomNodes";
 import CodeModal from "../UI/CodeModal";
 import { nodesToHtml } from "../../utils/codegen";
 
+// Paleta de colores verde
+const greenTheme = {
+  primary: "#10b981",
+  primaryDark: "#059669",
+  primaryLight: "#34d399",
+  secondary: "#065f46",
+  background: "#ecfdf5",
+  text: "#064e3b",
+  border: "#a7f3d0",
+  panelBg: "rgba(236, 253, 245, 0.9)",
+};
+
 const defaultNodeStyles = {
-  rectangle: { fill: "#4f46e5", stroke: "#4338ca", width: 120, height: 80 },
-  circle: { fill: "#4f46e5", stroke: "#4338ca", width: 100, height: 100 },
-  text: { fontSize: 16, color: "#1f2937", width: 150, height: 40 },
+  rectangle: {
+    fill: greenTheme.primary,
+    stroke: greenTheme.primaryDark,
+    width: 120,
+    height: 80,
+  },
+  circle: {
+    fill: greenTheme.primary,
+    stroke: greenTheme.primaryDark,
+    width: 100,
+    height: 100,
+  },
+  text: { fontSize: 16, color: greenTheme.text, width: 150, height: 40 },
   image: { width: 150, height: 150 },
-  header: { width: "100%", height: 60, fill: "#ffffff", stroke: "#e5e7eb" },
-  loginForm: { width: 320, height: 400, fill: "#ffffff", stroke: "#e5e7eb" },
-  button: { width: 120, height: 40, fill: "#3b82f6", stroke: "#2563eb" },
+  header: { width: "100%", height: 60, fill: "#ffffff", stroke: "#d1fae5" },
+  loginForm: { width: 320, height: 400, fill: "#ffffff", stroke: "#d1fae5" },
+  button: {
+    width: 120,
+    height: 40,
+    fill: greenTheme.primary,
+    stroke: greenTheme.primaryDark,
+  },
 };
 
 const CanvasComponent = ({
@@ -127,7 +154,7 @@ const CanvasComponent = ({
                 },
               ],
               buttonText: "Sign In",
-              buttonColor: "#3b82f6",
+              buttonColor: greenTheme.primary,
             }
           : type === "button"
           ? { text: "Click me", onClick: "handleClick" }
@@ -304,7 +331,10 @@ const CanvasComponent = ({
   );
 
   return (
-    <div className="flex flex-1 h-full bg-gray-50">
+    <div
+      className="flex flex-1 h-full"
+      style={{ backgroundColor: greenTheme.background }}
+    >
       {/* Toolbar lateral */}
       <Toolbar
         activeTool={tool}
@@ -344,7 +374,7 @@ const CanvasComponent = ({
       {/* Lienzo */}
       <div className="flex-1 relative">
         <ReactFlow {...flowProps}>
-          <Background gap={16} color="#e5e7eb" variant="dots" />
+          <Background gap={16} color="#d1fae5" variant="dots" />
           <Controls
             position="bottom-right"
             showInteractive={false}
@@ -353,22 +383,31 @@ const CanvasComponent = ({
               borderRadius: "8px",
               boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
               padding: "4px",
+              border: `1px solid ${greenTheme.border}`,
             }}
           />
           <MiniMap
             style={{
               backgroundColor: "rgba(255,255,255,0.8)",
               borderRadius: "8px",
+              border: `1px solid ${greenTheme.border}`,
             }}
             nodeColor={(n) => {
-              if (n.type === "rectangle") return "#4f46e5";
-              if (n.type === "circle") return "#4f46e5";
-              if (n.type === "text") return "#1f2937";
+              if (n.type === "rectangle") return greenTheme.primary;
+              if (n.type === "circle") return greenTheme.primary;
+              if (n.type === "text") return greenTheme.text;
               return "#9ca3af";
             }}
           />
           <Panel position="top-right">
-            <div className="bg-white/90 backdrop-blur p-2 rounded-lg shadow-sm text-xs text-gray-600">
+            <div
+              className="p-2 rounded-lg shadow-sm text-xs"
+              style={{
+                backgroundColor: greenTheme.panelBg,
+                color: greenTheme.text,
+                border: `1px solid ${greenTheme.border}`,
+              }}
+            >
               Canvas: {canvaId} • Nodos: {nodes.length} • Zoom:{" "}
               {Math.round(viewport.zoom * 100)}%
             </div>

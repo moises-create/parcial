@@ -1,17 +1,27 @@
 import React from "react";
 import { Handle, Position } from "reactflow";
+const greenTheme = {
+  primary: "#10b981",
+  primaryDark: "#059669",
+  primaryLight: "#34d399",
+  secondary: "#065f46",
+  background: "#ecfdf5",
+  text: "#064e3b",
+  border: "#a7f3d0",
+  panelBg: "rgba(236, 253, 245, 0.9)",
+};
 
 const baseNodeClasses = (selected) =>
   `transition-all duration-300 ${
     selected
-      ? "ring-2 ring-indigo-400 shadow-xl"
-      : "ring-1 ring-gray-600 shadow-lg"
+      ? `ring-2 ring-${greenTheme.primaryDark} shadow-xl`
+      : `ring-1 ring-${greenTheme.border} shadow-lg`
   }`;
 
 const FuturisticNode = ({ children, data, selected, type }) => (
   <div
     className={`${baseNodeClasses(selected)} rounded-xl overflow-hidden ${
-      type === "text" ? "bg-gray-800/80 backdrop-blur-sm" : "bg-gray-800"
+      type === "text" ? "bg-green-50/80 backdrop-blur-sm" : "bg-green-50"
     }`}
     style={{
       opacity: data.visible === false ? 0.3 : 1,
@@ -22,20 +32,23 @@ const FuturisticNode = ({ children, data, selected, type }) => (
     <Handle
       type="target"
       position={Position.Top}
-      className="!w-3 !h-3 !bg-indigo-500 !border-2 !border-gray-900"
+      className="!w-3 !h-3 !bg-green-500 !border-2 !border-green-900"
     />
     {children}
     <Handle
       type="source"
       position={Position.Bottom}
-      className="!w-3 !h-3 !bg-indigo-500 !border-2 !border-gray-900"
+      className="!w-3 !h-3 !bg-green-500 !border-2 !border-green-900"
     />
   </div>
 );
 
 const TextNode = ({ data, selected }) => (
   <FuturisticNode data={data} selected={selected} type="text">
-    <div className="p-4" style={{ color: data.style?.color || "#e2e8f0" }}>
+    <div
+      className="p-4"
+      style={{ color: data.style?.color || greenTheme.text }}
+    >
       {data.text || data.label || "Text"}
     </div>
   </FuturisticNode>
@@ -45,9 +58,9 @@ const RectangleNode = ({ data, selected }) => (
   <FuturisticNode data={data} selected={selected}>
     <div
       className="flex items-center justify-center h-full"
-      style={{ backgroundColor: data.style?.fill || "#4f46e5" }}
+      style={{ backgroundColor: data.style?.fill || greenTheme.primary }}
     >
-      <span className="text-gray-100 px-4 py-2 text-center">
+      <span className="text-white px-4 py-2 text-center">
         {data.label || "Rectangle"}
       </span>
     </div>
@@ -63,9 +76,9 @@ const CircleNode = ({ data, selected }) => {
         selected
       )}`}
       style={{
-        backgroundColor: data.style?.fill || "#4f46e5",
+        backgroundColor: data.style?.fill || greenTheme.primary,
         border: `${data.style?.borderWidth || 1}px solid ${
-          data.style?.stroke || "#4338ca"
+          data.style?.stroke || greenTheme.primaryDark
         }`,
         width: size,
         height: size,
@@ -76,11 +89,11 @@ const CircleNode = ({ data, selected }) => {
       <Handle
         type="target"
         position={Position.Top}
-        className="!h-2 !w-2 !bg-gray-400"
+        className="!h-2 !w-2 !bg-green-400"
       />
       <span
         style={{
-          color: data.style?.textColor || "white",
+          color: "white",
           fontSize: `${data.style?.fontSize || 14}px`,
           textAlign: "center",
         }}
@@ -90,7 +103,7 @@ const CircleNode = ({ data, selected }) => {
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!h-2 !w-2 !bg-gray-400"
+        className="!h-2 !w-2 !bg-green-400"
       />
     </div>
   );
