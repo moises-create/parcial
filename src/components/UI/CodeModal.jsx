@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Copy, Code, FileText, Cpu, Package } from "react-feather";
+import { X, Copy, Code, FileText, Cpu, Package, Download } from "react-feather";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
@@ -242,8 +242,9 @@ const createAngularZip = async (angularProject) => {
 
 const CodeModal = ({ code, onClose, nodes = [] }) => {
   const [activeTab, setActiveTab] = useState("html");
+  const [copied, setCopied] = useState(false);
 
-  // Extrae las partes del código (esto es básico, puedes mejorarlo)
+  // Extrae las partes del código
   const htmlPart = code.match(/<body>([\s\S]*)<\/body>/)?.[1] || "";
   const cssPart = code.match(/<style>([\s\S]*)<\/style>/)?.[1] || "";
   const jsPart = code.match(/<script>([\s\S]*)<\/script>/)?.[1] || "";
@@ -251,7 +252,6 @@ const CodeModal = ({ code, onClose, nodes = [] }) => {
   // Generar código Angular
   const angularProject = nodesToAngular(nodes);
 
-  // Versión simplificada para mostrar en la interfaz
   const angularPreview = `// app.component.html
 ${angularProject.app.html}
 
@@ -266,7 +266,8 @@ ${Object.keys(angularProject.components)
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    // Puedes agregar una notificación de copiado aquí
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const downloadAngularProject = async () => {
@@ -275,66 +276,71 @@ ${Object.keys(angularProject.components)
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white w-[min(90vw,900px)] max-h-[90vh] rounded-lg shadow-xl flex flex-col">
-        <header className="p-4 border-b flex items-center">
-          <h2 className="font-semibold flex-1">Generated code</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="bg-emerald-50 w-[min(90vw,900px)] max-h-[90vh] rounded-lg shadow-xl flex flex-col border border-emerald-200">
+        <header className="p-4 border-b border-emerald-200 flex items-center bg-emerald-100 rounded-t-lg">
+          <h2 className="font-semibold flex-1 text-emerald-800">
+            <span className="bg-emerald-600 text-white px-2 py-1 rounded mr-2 text-sm">
+              Export
+            </span>
+            Generated Code
+          </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-red-500"
+            className="text-emerald-600 hover:text-emerald-800 p-1 rounded-full hover:bg-emerald-200"
           >
-            <X />
+            <X size={20} />
           </button>
         </header>
 
-        <div className="border-b flex">
+        <div className="border-b border-emerald-200 flex bg-emerald-100/50">
           <button
-            className={`px-4 py-2 text-sm font-medium ${
+            className={`px-4 py-3 text-sm font-medium flex items-center transition-all ${
               activeTab === "html"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "text-gray-500"
+                ? "text-emerald-800 border-b-2 border-emerald-600 bg-white"
+                : "text-emerald-600 hover:text-emerald-800 hover:bg-emerald-50"
             }`}
             onClick={() => setActiveTab("html")}
           >
-            <FileText size={16} className="inline mr-1" />
+            <FileText size={16} className="mr-2" />
             HTML
           </button>
           <button
-            className={`px-4 py-2 text-sm font-medium ${
+            className={`px-4 py-3 text-sm font-medium flex items-center transition-all ${
               activeTab === "css"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "text-gray-500"
+                ? "text-emerald-800 border-b-2 border-emerald-600 bg-white"
+                : "text-emerald-600 hover:text-emerald-800 hover:bg-emerald-50"
             }`}
             onClick={() => setActiveTab("css")}
           >
-            <Code size={16} className="inline mr-1" />
+            <Code size={16} className="mr-2" />
             CSS
           </button>
           <button
-            className={`px-4 py-2 text-sm font-medium ${
+            className={`px-4 py-3 text-sm font-medium flex items-center transition-all ${
               activeTab === "js"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "text-gray-500"
+                ? "text-emerald-800 border-b-2 border-emerald-600 bg-white"
+                : "text-emerald-600 hover:text-emerald-800 hover:bg-emerald-50"
             }`}
             onClick={() => setActiveTab("js")}
           >
-            <Cpu size={16} className="inline mr-1" />
-            JS
+            <Cpu size={16} className="mr-2" />
+            JavaScript
           </button>
           <button
-            className={`px-4 py-2 text-sm font-medium ${
+            className={`px-4 py-3 text-sm font-medium flex items-center transition-all ${
               activeTab === "angular"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "text-gray-500"
+                ? "text-emerald-800 border-b-2 border-emerald-600 bg-white"
+                : "text-emerald-600 hover:text-emerald-800 hover:bg-emerald-50"
             }`}
             onClick={() => setActiveTab("angular")}
           >
-            <Package size={16} className="inline mr-1" />
+            <Package size={16} className="mr-2" />
             Angular
           </button>
         </div>
 
-        <pre className="p-4 overflow-auto text-xs flex-1 bg-gray-50">
+        <pre className="p-4 overflow-auto text-xs flex-1 bg-white font-mono text-emerald-900">
           <code>
             {activeTab === "html" && htmlPart}
             {activeTab === "css" && cssPart}
@@ -343,10 +349,14 @@ ${Object.keys(angularProject.components)
           </code>
         </pre>
 
-        <footer className="p-4 border-t flex justify-between">
+        <footer className="p-4 border-t border-emerald-200 flex justify-between items-center bg-emerald-50 rounded-b-lg">
           <div className="flex space-x-2">
             <button
-              className="px-4 py-2 bg-blue-600 text-white rounded flex items-center"
+              className={`px-4 py-2 rounded flex items-center text-sm font-medium transition-all ${
+                copied
+                  ? "bg-emerald-600 text-white"
+                  : "bg-emerald-100 text-emerald-800 hover:bg-emerald-200"
+              }`}
               onClick={() =>
                 copyToClipboard(
                   activeTab === "html"
@@ -360,19 +370,21 @@ ${Object.keys(angularProject.components)
               }
             >
               <Copy size={16} className="mr-2" />
-              Copy {activeTab.toUpperCase()}
+              {copied ? "Copied!" : `Copy ${activeTab.toUpperCase()}`}
             </button>
           </div>
+
           {activeTab === "angular" ? (
             <button
-              className="px-4 py-2 border rounded bg-red-600 text-white"
+              className="px-4 py-2 rounded flex items-center bg-emerald-600 text-white hover:bg-emerald-700 transition-colors text-sm font-medium"
               onClick={downloadAngularProject}
             >
+              <Download size={16} className="mr-2" />
               Download Angular Project
             </button>
           ) : (
             <button
-              className="px-4 py-2 border rounded"
+              className="px-4 py-2 rounded flex items-center border border-emerald-300 bg-white text-emerald-700 hover:bg-emerald-50 transition-colors text-sm font-medium"
               onClick={() => {
                 const blob = new Blob([code], { type: "text/html" });
                 const url = URL.createObjectURL(blob);
@@ -382,6 +394,7 @@ ${Object.keys(angularProject.components)
                 a.click();
               }}
             >
+              <Download size={16} className="mr-2" />
               Download HTML
             </button>
           )}
