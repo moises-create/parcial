@@ -27,43 +27,43 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-50 to-green-100">
       <div className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16 pb-12">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <div className="mx-auto h-20 w-20 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg">
+            <div className="mx-auto h-20 w-20 rounded-full bg-gradient-to-r from-green-500 to-green-700 flex items-center justify-center shadow-lg">
               <LockClosedIcon
                 className="h-10 w-10 text-white"
                 aria-hidden="true"
               />
             </div>
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="mt-6 text-3xl font-extrabold text-green-900 tracking-tight">
               Inicia sesión en tu cuenta
             </h2>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-green-700">
               ¿No tienes una cuenta?{" "}
               <Link
                 to="/register"
-                className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+                className="font-medium text-green-600 hover:text-green-800 transition-colors"
               >
                 Regístrate ahora
               </Link>
             </p>
           </div>
 
-          <div className="bg-white py-8 px-6 shadow-xl rounded-xl backdrop-blur-sm bg-opacity-90 border border-blue-100">
+          <div className="bg-white py-8 px-6 shadow-xl rounded-xl backdrop-blur-sm bg-opacity-90 border border-green-100">
             <form className="space-y-6" onSubmit={handleLogin}>
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-green-800"
                 >
                   Correo electrónico
                 </label>
                 <div className="mt-1 relative rounded-md shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <EnvelopeIcon
-                      className="h-5 w-5 text-gray-400"
+                      className="h-5 w-5 text-green-400"
                       aria-hidden="true"
                     />
                   </div>
@@ -75,7 +75,7 @@ const LoginPage = () => {
                     required
                     value={user}
                     onChange={(e) => setUser(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                    className="block w-full pl-10 pr-3 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
                     placeholder="tu@email.com"
                   />
                 </div>
@@ -84,14 +84,14 @@ const LoginPage = () => {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-green-800"
                 >
                   Contraseña
                 </label>
                 <div className="mt-1 relative rounded-md shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <LockClosedIcon
-                      className="h-5 w-5 text-gray-400"
+                      className="h-5 w-5 text-green-400"
                       aria-hidden="true"
                     />
                   </div>
@@ -103,7 +103,7 @@ const LoginPage = () => {
                     required
                     value={pass}
                     onChange={(e) => setPass(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                    className="block w-full pl-10 pr-3 py-3 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
                     placeholder="••••••••"
                   />
                 </div>
@@ -117,11 +117,11 @@ const LoginPage = () => {
                     type="checkbox"
                     checked={rememberMe}
                     onChange={() => setRememberMe(!rememberMe)}
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded transition-all"
+                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-green-300 rounded transition-all"
                   />
                   <label
                     htmlFor="remember-me"
-                    className="ml-2 block text-sm text-gray-700"
+                    className="ml-2 block text-sm text-green-800"
                   >
                     Recordarme
                   </label>
@@ -130,7 +130,7 @@ const LoginPage = () => {
                 <div className="text-sm">
                   <Link
                     to="/forgot-password"
-                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+                    className="font-medium text-green-600 hover:text-green-800 transition-colors"
                   >
                     ¿Olvidaste tu contraseña?
                   </Link>
@@ -153,10 +153,10 @@ const LoginPage = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className={`group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg transition-all duration-150 hover:-translate-y-0.5 ${
+                  className={`group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 shadow-lg transition-all duration-150 hover:-translate-y-0.5 ${
                     isLoading
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                      ? "bg-green-300 cursor-not-allowed"
+                      : "bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800"
                   }`}
                 >
                   {isLoading ? (

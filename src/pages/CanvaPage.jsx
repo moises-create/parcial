@@ -18,12 +18,12 @@ import PagesPanel from "../components/canvas/PagesPanel";
 import ErrorBoundary from "../components/ErrorBoundary";
 import LayoutPresets from "../components/canvas/LayoutPresets";
 import LayersPanel from "../components/canvas/LayersPanel";
-
+import useUserAuth from "../hooks/useUserAuth";
 const CanvaPage = () => {
   const { canvaId } = useParams();
   const navigate = useNavigate();
-  const auth = getAuth();
-  const user = auth.currentUser;
+
+  const { user, loading: authLoading } = useUserAuth();
   const [activeRightPanel, setActiveRightPanel] = useState("pages");
   const [fullScreen, setFullScreen] = useState(false);
 
@@ -41,12 +41,12 @@ const CanvaPage = () => {
     removePage,
   } = useCanvasData(canvaId, user?.email);
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
+  if (authLoading || loading) {
+    return <LoadingSpinner fullScreen />;
   }
 
-  if (loading) {
-    return <LoadingSpinner fullScreen />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
   }
 
   if (error) {
