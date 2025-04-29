@@ -1,0 +1,176 @@
+/* styles.css - Rediseño futurista */
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary: #10b981;
+  --dark: #0f172a;
+  --darker: #020617;
+  --light: #f8fafc;
+  --gray: #94a3b8;
+  --glass: rgba(15, 23, 42, 0.8);
+}
+
+/* Estilos base futuristas */
+body {
+  background-color: var(--darker);
+  color: var(--light);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  max-width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Efectos de vidrio esmerilado */
+.glass-panel {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollbars personalizados */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* Logotipo futurista */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 1em var(--primary));
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em var(--primary-dark));
+  transform: scale(1.05);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.logo.react {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Tarjetas futuristas */
+.card {
+  background: var(--glass);
+  border-radius: 12px;
+  padding: 2em;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+}
+
+/* Texto y enlaces */
+.read-the-docs {
+  color: var(--gray);
+  font-size: 0.9em;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: var(--light);
+  text-shadow: 0 0 8px rgba(99, 102, 241, 0.6);
+}
+
+/* Panel de participantes futurista */
+.participants-panel {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) rgba(255, 255, 255, 0.05);
+}
+
+.participants-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.participants-panel::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.participants-panel::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+.participants-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* Efectos de iluminación */
+.glow-effect {
+  position: relative;
+}
+
+.glow-effect::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 15px var(--primary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-effect:hover::after {
+  opacity: 0.6;
+}
+
+/* Solución para el error de updateDoc() */
+/* Asegúrate de que todos los campos requeridos estén definidos antes de llamar a updateDoc() */
+/* Ejemplo de validación: */
+
+/*
+const updateData = {
+  description: formData.description || '', // Proporciona un valor por defecto
+  lastUpdated: serverTimestamp(),
+  // Asegúrate de que todos los campos requeridos estén presentes
+};
+
+await updateDoc(doc(db, "canvas", canvaId), updateData);
+*/

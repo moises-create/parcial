@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+/* ────────────────────────────────────────────
+   PALETA / VARIABLES
+   ──────────────────────────────────────────── */
+:root {
+  --rf-blue: #3b82f6;
+  --rf-blue-dark: #2563eb;
+  --rf-gray-light: #f1f1f1;
+  --rf-gray-medium: #c1c1c1;
+  --rf-handle-size: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --rf-blue: #60a5fa;
+    --rf-blue-dark: #3b82f6;
+    --rf-gray-light: #1f2937;
+    --rf-gray-medium: #4b5563;
+  }
+}
+
+/* ────────────────────────────────────────────
+   SCROLLBARS (paneles custom-scrollbar)
+   ──────────────────────────────────────────── */
+.custom-scrollbar,
+.participants-panel {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--rf-gray-medium) var(--rf-gray-light);
+}
+.custom-scrollbar::-webkit-scrollbar,
+.participants-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track,
+.participants-panel::-webkit-scrollbar-track {
+  background: var(--rf-gray-light);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb,
+.participants-panel::-webkit-scrollbar-thumb {
+  background: var(--rf-gray-medium);
+  border-radius: 3px;
+}
+
+/* ────────────────────────────────────────────
+   REACT–FLOW: Nodos, Handles, Minimap & Controls
+   ──────────────────────────────────────────── */
+
+/* Contenedor principal */
+.react-flow__container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  will-change: transform; /* perf */
+}
+
+/* Nodos */
+.react-flow__node {
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+.react-flow__node.selected {
+  box-shadow: 0 0 0 2px var(--rf-blue);
+  z-index: 10 !important; /* sobre aristas */
+}
+
+/* Handles */
+.react-flow__handle {
+  width: var(--rf-handle-size);
+  height: var(--rf-handle-size);
+  border-radius: 50%;
+  opacity: 0.6;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+.react-flow__handle:hover {
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+/* Edges y renderer optimizados */
+.react-flow__edges,
+.react-flow__renderer {
+  will-change: transform;
+}
+
+/* Minimap */
+.react-flow__minimap {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+}
+
+/* Controls */
+.react-flow__controls {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+}
+.react-flow__controls-button {
+  background: green;
+  border-bottom: 1px solid #eee;
+  transition: background 0.15s ease;
+}
+.react-flow__controls-button:hover {
+  background: #f5f5f5;
+}
+
+/* ────────────────────────────────────────────
+   CUSTOM NODES base (puedes extender en Tailwind)
+   ──────────────────────────────────────────── */
+.custom-node {
+  background: green;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 10px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.custom-node.selected {
+  border-color: var(--rf-blue);
+  box-shadow: 0 0 0 2px var(--rf-blue);
+}
+.custom-node__title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.custom-node__description {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* dark-mode extra (opcional)
+------------------------------------------------ */
+@media (prefers-color-scheme: dark) {
+  .react-flow__controls-button {
+    background: #374151;
+    border-color: #4b5563;
+  }
+  .react-flow__controls-button:hover {
+    background: #4b5563;
+  }
+  .react-flow__minimap {
+    background-color: rgba(31, 41, 55, 0.85);
+  }
+}
+
+/* Add to your global styles */
+/* Add to your global styles */
+.toolbar-enter {
+  opacity: 0;
+  max-height: 0;
+}
+
+.toolbar-enter-active {
+  opacity: 1;
+  max-height: 500px;
+  transition: all 0.3s ease;
+}
+
+.toolbar-exit {
+  opacity: 1;
+  max-height: 500px;
+}
+
+.toolbar-exit-active {
+  opacity: 0;
+  max-height: 0;
+  transition: all 0.3s ease;
+}
+
+.toolbar-button {
+  transition: all 0.2s ease;
+}
+
+.toolbar-button:hover {
+  transform: scale(1.1);
+}
